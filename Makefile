@@ -1,4 +1,4 @@
-.PHONY: audit build down logs preflight profile-test provenance security-test smoke status test up verify
+.PHONY: audit build down logs preflight profile-test provenance ref2va-profile-test security-test smoke status test up verify
 
 preflight:
 	./scripts/preflight.sh
@@ -29,6 +29,9 @@ provenance:
 
 profile-test:
 	./tests/test-profile-validation.sh
+
+ref2va-profile-test:
+	bash ./tests/test-ref2va-balanced-profile.sh
 
 security-test:
 	./tests/test-network-security.sh

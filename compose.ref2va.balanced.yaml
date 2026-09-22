@@ -1,0 +1,8 @@
+services:
+  minimax-h3-ref2va:
+    environment:
+      # Approximate residual reuse. This profile is measurably faster, but the
+      # same seed does not produce bit-identical video versus full compute.
+      H3_CACHE_BACKEND: cache_dit
+      H3_CACHE_CONFIG: >-
+        {"Fn_compute_blocks":1,"Bn_compute_blocks":0,"max_warmup_steps":4,"max_cached_steps":-1,"residual_diff_threshold":0.10,"max_continuous_cached_steps":1,"enable_taylorseer":false}

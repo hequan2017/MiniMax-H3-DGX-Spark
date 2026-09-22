@@ -1,0 +1,3 @@
+FROM minimax-h3-dgx-spark:sm121-fp8
+RUN sed -i "s|/models/MiniMax-H3/FL2VA|/models/MiniMax-H3/Ref2VA|" /usr/local/bin/start-minimax-h3
+COPY patches-ref2va/pipeline_minimax_h3.py /usr/local/lib/python3.12/dist-packages/vllm_omni/diffusion/models/minimax_h3/pipeline_minimax_h3.py

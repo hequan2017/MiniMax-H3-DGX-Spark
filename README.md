@@ -126,6 +126,25 @@ served at `POST /v1/videos/sync`. The smoke script stages the response, checks
 the HTTP status, rejects JSON/error bodies, and only promotes a file after
 `ffprobe` confirms a media container.
 
+### Ref2VA balanced profile
+
+The Ref2VA image and Compose definition are kept separate because the model
+path and pipeline differ from FL2VA. Build the image once, then layer the
+balanced Cache-DiT profile over the base Ref2VA service:
+
+```bash
+docker build -f Dockerfile.ref2va -t minimax-h3-dgx-spark:sm121-fp8-ref2va .
+docker compose \
+  -f compose.ref2va.yaml \
+  -f compose.ref2va.balanced.yaml \
+  up -d
+```
+
+The balanced overlay retains cuDNN attention and regional compilation, and
+enables the measured Cache-DiT 0.10 settings. It is approximate: use only the
+base `compose.ref2va.yaml` when same-seed full-compute behavior matters.
+Run `make ref2va-profile-test` before deployment to verify the merged config.
+
 Remote access is deliberately opt-in. Read [SECURITY.md](SECURITY.md) before
 changing `H3_BIND_HOST`; a non-loopback bind requires both
 `H3_ALLOW_REMOTE_API=true` and a strong `H3_API_KEY`. The client scripts send
